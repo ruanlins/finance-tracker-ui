@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import { createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -5,5 +6,5 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  return <h1 className="text-red-600">Hello, world!</h1>;
+  return <Header />;
 }

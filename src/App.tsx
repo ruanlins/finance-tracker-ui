@@ -1,12 +1,13 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const router = createRouter({ routeTree });
 
 export default function App() {
   return (
-    <div>
+    <ThemeProvider>
       <RouterProvider router={router} />
-    </div>
+    </ThemeProvider>
   );
 }
