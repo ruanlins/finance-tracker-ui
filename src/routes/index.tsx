@@ -6,6 +6,7 @@ import { type ChartConfig } from "@/components/ui/chart";
 import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
 import type { DateRange } from "react-day-picker";
+import { despesas } from "@/utils/despesas";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -54,64 +55,6 @@ const chartConfig = {
     color: "var(--ring)",
   },
 } satisfies ChartConfig;
-
-const despesas = [
-  {
-    data: "2025-01-05",
-    descricao: "Supermercado",
-    categoria: "Alimentação",
-    valor: 250.75,
-  },
-  {
-    data: "2025-01-07",
-    descricao: "Conta de Luz",
-    categoria: "Moradia",
-    valor: 180.4,
-  },
-  {
-    data: "2025-01-10",
-    descricao: "Gasolina",
-    categoria: "Transporte",
-    valor: 120.0,
-  },
-  { data: "2025-01-12", descricao: "Cinema", categoria: "Lazer", valor: 45.0 },
-  {
-    data: "2025-01-15",
-    descricao: "Internet",
-    categoria: "Moradia",
-    valor: 99.9,
-  },
-  {
-    data: "2025-01-18",
-    descricao: "Farmácia",
-    categoria: "Saúde",
-    valor: 60.3,
-  },
-  {
-    data: "2025-01-20",
-    descricao: "Restaurante",
-    categoria: "Alimentação",
-    valor: 85.5,
-  },
-  {
-    data: "2025-01-22",
-    descricao: "Academia",
-    categoria: "Saúde",
-    valor: 130.0,
-  },
-  {
-    data: "2025-01-25",
-    descricao: "Ônibus",
-    categoria: "Transporte",
-    valor: 8.6,
-  },
-  {
-    data: "2025-01-28",
-    descricao: "Streaming",
-    categoria: "Lazer",
-    valor: 29.9,
-  },
-];
 
 function RouteComponent() {
   const [period, setPeriod] = React.useState<string>("month");

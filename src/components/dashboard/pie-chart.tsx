@@ -1,13 +1,18 @@
 import { Pie, PieChart } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "../ui/chart";
+import { despesas } from "@/utils/despesas";
 
 interface PieChartDashboardProps {
   chartData: {
@@ -17,6 +22,18 @@ interface PieChartDashboardProps {
   }[];
   chartConfig: ChartConfig;
 }
+
+const despesasPorCategoria = despesas.reduce(
+  (acc, despesa) => {
+    const categoria = despesa.categoria;
+    if (!acc[categoria]) {
+      acc[categoria] = 0;
+    }
+    acc[categoria] += despesa.valor;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 export function PieChartDashboard({
   chartData,
@@ -37,19 +54,33 @@ export function PieChartDashboard({
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <ChartLegend
-              content={<ChartLegendContent nameKey="categoria" />}
-              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
-            />
             <Pie
               data={chartData}
-              dataKey="gastos"
+              dataKey={"gastos"}
               nameKey="categoria"
               innerRadius={75}
-              label
             />
           </PieChart>
         </ChartContainer>
+        <CardFooter>
+          <ul className="flex w-full flex-col justify-between gap-3">
+            {Object.entries(despesasPorCategoria).map(([chave, valor]) => {
+              return (
+                <li className="flex justify-between" key={chave}>
+                  <p className="before:bg-muted-foreground flex items-center before:mr-1 before:block before:h-5 before:w-5 before:rounded-full before:content-['']">
+                    {chave}
+                  </p>
+                  <p>
+                    {valor.toLocaleString("pt-BR", {
+                      currency: "BRL",
+                      style: "currency",
+                    })}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </CardFooter>
       </CardContent>
     </Card>
   );
