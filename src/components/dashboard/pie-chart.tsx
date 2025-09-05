@@ -4,6 +4,8 @@ import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
   type ChartConfig,
 } from "../ui/chart";
 
@@ -26,8 +28,15 @@ export function PieChartDashboard({
         <CardTitle>Gastos por categoria</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer className="h-[300px] w-[300px]" config={chartConfig}>
+        <ChartContainer
+          className="m-auto h-[300px] min-h-[100px] w-[300px]"
+          config={chartConfig}
+        >
           <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
             <ChartLegend
               content={<ChartLegendContent nameKey="categoria" />}
               className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
