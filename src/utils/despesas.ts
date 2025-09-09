@@ -54,4 +54,28 @@ export const despesas = [
     categoria: "Lazer",
     valor: 29.9,
   },
+  {
+    data: "2025-01-20",
+    descricao: "Restaurante",
+    categoria: "Alimentação",
+    valor: 85.5,
+  },
+  {
+    data: "2025-01-22",
+    descricao: "Academia",
+    categoria: "Saúde",
+    valor: 130.0,
+  },
+  {
+    data: "2025-01-25",
+    descricao: "Ônibus",
+    categoria: "Transporte",
+    valor: 8.6,
+  },
+  {
+    data: "2025-01-28",
+    descricao: "Streaming",
+    categoria: "Lazer",
+    valor: 29.9,
+  },
 ];

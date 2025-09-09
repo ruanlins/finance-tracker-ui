@@ -7,6 +7,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { despesas } from "@/utils/despesas";
+import { AddTransactionButton } from "@/components/add-transaction";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -81,11 +82,7 @@ function RouteComponent() {
           value={data[0].value}
           comparison={data[0].comparison}
         />
-        <DashboardCard
-          title={data[1].title}
-          value={data[1].value}
-          comparison={data[1].comparison}
-        />
+        <AddTransactionButton />
         <PieChartDashboard chartData={chartData} chartConfig={chartConfig} />
         <DashboardTable despesas={despesas} />
       </div>

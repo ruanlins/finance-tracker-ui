@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 
 export default function Header() {
   return (
-    <header className="bg-muted w-screen border-b-[1px] border-ring">
+    <header className="bg-muted border-ring w-full border-b-[1px]">
       <div className="m-auto flex h-16 w-4/6 items-center justify-between">
         <Landmark size={40} />
         <div>
