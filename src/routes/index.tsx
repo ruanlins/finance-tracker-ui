@@ -1,13 +1,11 @@
 import { DashboardCard } from "@/components/dashboard/card";
-import { Filters } from "@/components/dashboard/filters";
 import { PieChartDashboard } from "@/components/dashboard/pie-chart";
 import { DashboardTable } from "@/components/dashboard/table";
 import { type ChartConfig } from "@/components/ui/chart";
 import { createFileRoute } from "@tanstack/react-router";
-import React from "react";
-import type { DateRange } from "react-day-picker";
 import { despesas } from "@/utils/despesas";
 import { AddTransactionButton } from "@/components/add-transaction";
+import { DateFilters } from "@/components/date-filters";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -58,18 +56,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function RouteComponent() {
-  const [period, setPeriod] = React.useState<string>("month");
-  const [timeRange, setTimeRange] = React.useState<DateRange | undefined>();
   return (
     <div className="m-auto w-4/6">
       <div className="my-12 flex justify-between">
         <h1 className="text-3xl font-semibold">Olá, Usuário!</h1>
-        <Filters
-          period={period}
-          setPeriod={setPeriod}
-          timeRange={timeRange}
-          setTimeRange={setTimeRange}
-        />
+        <DateFilters />
       </div>
       <div className="my-12 grid grid-cols-3 gap-10">
         <DashboardCard
