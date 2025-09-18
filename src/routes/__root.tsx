@@ -1,10 +1,17 @@
 import Header from "@/components/header";
-import { createRootRoute } from "@tanstack/react-router";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
 function RootComponent() {
-  return <Header />;
+  return (
+    <div>
+      <Header />
+      <main className="bg-muted min-h-full py-4">
+        <Outlet />
+      </main>
+    </div>
+  );
 }
