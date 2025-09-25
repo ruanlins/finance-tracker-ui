@@ -7,11 +7,13 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div>
+    <div className="bg-muted min-h-screen">
       <Header />
-      <main className="bg-muted min-h-full py-4">
-        <Outlet />
-      </main>
+      <div className="bg-muted py-4">
+        <main className="m-auto w-4/6">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

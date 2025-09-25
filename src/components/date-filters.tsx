@@ -50,7 +50,7 @@ export function DateFilters() {
             <ToggleGroupItem
               key={toggle.value}
               value={toggle.value}
-              className="data-[state=on]:bg-primary-foreground/25 data-[state=on]:text-primary"
+              className="data-[state=on]:bg-primary-foreground/25 data-[state=on]:text-primary nth-2:px-4"
             >
               {toggle.label}
             </ToggleGroupItem>

@@ -57,12 +57,12 @@ const chartConfig = {
 
 function RouteComponent() {
   return (
-    <div className="m-auto w-4/6">
-      <div className="my-12 flex justify-between">
+    <div className="flex flex-col gap-12">
+      <div className="mt-12 flex justify-between">
         <h1 className="text-3xl font-semibold">Olá, Usuário!</h1>
         <DateFilters />
       </div>
-      <div className="my-12 grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-3 gap-10">
         <DashboardCard
           title={data[0].title}
           value={data[0].value}
