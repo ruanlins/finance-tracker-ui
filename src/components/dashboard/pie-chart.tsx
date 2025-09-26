@@ -40,7 +40,7 @@ export function PieChartDashboard({
   chartConfig,
 }: PieChartDashboardProps) {
   return (
-    <Card>
+    <Card className="h-fit">
       <CardHeader>
         <CardTitle>Gastos por categoria</CardTitle>
       </CardHeader>
@@ -67,7 +67,7 @@ export function PieChartDashboard({
             {Object.entries(despesasPorCategoria).map(([chave, valor]) => {
               return (
                 <li className="flex justify-between" key={chave}>
-                  <p className="before:bg-muted-foreground flex items-center before:mr-1 before:block before:h-5 before:w-5 before:rounded-full before:content-['']">
+                  <p className="before:bg-muted-foreground flex items-center gap-1 before:mr-1 before:block before:h-5 before:w-5 before:rounded-full before:content-['']">
                     {chave}
                   </p>
                   <p>

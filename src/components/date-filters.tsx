@@ -33,10 +33,6 @@ export function DateFilters() {
       });
   }
 
-  useEffect(() => {
-    console.log(filter.value);
-  }, [filter]);
-
   return (
     <div className="flex items-center gap-4">
       <ToggleGroup
