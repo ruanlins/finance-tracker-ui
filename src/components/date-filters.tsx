@@ -10,7 +10,7 @@ import {
   getCurrentYearRange,
   getPastMonthRange,
 } from "@/lib/dateFilters";
-import { useEffect } from "react";
+import type { DateRange } from "react-day-picker";
 
 const filterLabels = [
   { label: "Esse mês", value: "current" },
@@ -55,14 +55,23 @@ export function DateFilters() {
       </ToggleGroup>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className={filter.label === "custom" ? "text-primary" : ""}
+          >
             <Calendar1 />
-            <p>Selecionar período</p>
+            {filter.label === "custom"
+              ? `${filter.value?.from?.toLocaleDateString("pt-BR")} - ${filter.value?.to?.toLocaleDateString("pt-BR")}`
+              : "Escolha o período"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full rounded-lg" align="end">
           <Calendar
             mode="range"
+            selected={filter.label === "custom" ? filter.value : undefined}
+            onSelect={(value) =>
+              setFilter({ label: "custom", value: value as DateRange })
+            }
             showOutsideDays
             numberOfMonths={2}
             defaultMonth={new Date()}
