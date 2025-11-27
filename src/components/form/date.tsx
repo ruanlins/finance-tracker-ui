@@ -9,9 +9,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 
 type DateComponentProps<TFieldValues extends FieldValues> = {
@@ -41,7 +39,9 @@ export function DateComponent<TFieldValues extends FieldValues>({
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "dd/MM/yyyy", { locale: ptBR })
+                    new Date(field.value).toLocaleDateString("pt-BR", {
+                      timeZone: "UTC",
+                    })
                   ) : (
                     <span>Informe a data</span>
                   )}

@@ -6,6 +6,7 @@ import {
   type SortingState,
   getSortedRowModel,
   getPaginationRowModel,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -23,16 +24,41 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { AddTransactionForm } from "../add-transaction-form";
 
 interface DataTableProps<TData, TValeu> {
   columns: ColumnDef<TData, TValeu>[];
   data: TData[];
 }
 
+interface ColumnFilter {
+  id: string;
+  value: unknown;
+}
+
+type ColumnFiltersState = ColumnFilter[];
+
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [pagination, setPagionation] = useState({
@@ -45,7 +71,9 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onPaginationChange: setPagionation,
     onRowSelectionChange: setRowSelection,
@@ -53,11 +81,32 @@ export function DataTable<TData, TValue>({
       sorting,
       pagination,
       rowSelection,
+      columnFilters,
     },
   });
 
   return (
     <div className="w-4xl self-center overflow-hidden rounded-md border">
+      <div className="bg-background flex justify-end gap-5 p-4">
+        <Input className="w-[250px]" placeholder="Buscar..." />
+        <Select
+          onValueChange={(event) =>
+            table
+              .getColumn("categoria")
+              ?.setFilterValue(event === "todas" ? undefined : event)
+          }
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Categoria" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="todas">Todas</SelectItem>
+            <SelectItem value="lazer">Lazer</SelectItem>
+            <SelectItem value="alimentação">Alimentação</SelectItem>
+            <SelectItem value="moradia">Moradia</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <Table>
         <TableHeader className="bg-background">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -105,22 +154,35 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                className="hover:bg-foreground/10"
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
+              <Dialog key={row.id}>
+                <DialogTrigger asChild>
+                  <TableRow
+                    className="hover:bg-foreground/10 cursor-pointer"
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Editar Transação</DialogTitle>
+                    <DialogDescription>Edite sua transação.</DialogDescription>
+                  </DialogHeader>
+                  <AddTransactionForm transaction={row.original} />
+                </DialogContent>
+              </Dialog>
             ))
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Nenhuma transação encontrada nesse período.
               </TableCell>
             </TableRow>
           )}
@@ -145,11 +207,11 @@ export function DataTable<TData, TValue>({
         </Button>
         {table.getPageCount() > 0 && (
           <span className="flex items-center gap-1">
-            <div>Página</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} de{" "}
-              {table.getPageCount()}
-            </strong>
+            Página
+            <span className="font-bold">
+              {table.getState().pagination.pageIndex + 1}
+            </span>
+            de <span className="font-bold">{table.getPageCount()}</span>
           </span>
         )}
         <Button

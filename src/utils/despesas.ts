@@ -85,7 +85,7 @@ export const despesas = [
     valor: 180.4,
   },
   {
-    data: "2025-01-10",
+    data: "2025-01-30",
     descricao: "Gasolina",
     categoria: "Transporte",
     valor: 120.0,

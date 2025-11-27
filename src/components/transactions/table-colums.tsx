@@ -1,5 +1,14 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../ui/checkbox";
+
+export type Transaction = {
+  data: Date;
+  descricao: string;
+  categoria: string;
+  valor: number;
+  tipo: "plus" | "minus";
+};
+
 export const columns: ColumnDef<Transaction>[] = [
   {
     id: "select",
@@ -25,8 +34,8 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "data",
     header: "Data",
     cell: ({ row }) => {
-      const data = row.getValue("data") as string;
-      return new Date(data).toLocaleDateString("pt-BR");
+      const rawDate = row.getValue("data") as Date;
+      return new Date(rawDate).toLocaleDateString("pt-BR", { timeZone: "UTC" });
     },
   },
   {
@@ -49,10 +58,3 @@ export const columns: ColumnDef<Transaction>[] = [
     },
   },
 ];
-
-type Transaction = {
-  data: string;
-  descricao: string;
-  categoria: string;
-  valor: number;
-};

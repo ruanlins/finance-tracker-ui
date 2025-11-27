@@ -8,16 +8,30 @@ import { InputComponent } from "./form/input";
 import { DateComponent } from "./form/date";
 import { SelectInputComponent } from "./form/select";
 import { ToggleInputComponent } from "./form/toggle";
+import { useEffect } from "react";
+import type { Transaction } from "./transactions/table-colums";
+
+// const formSchema = z.object({
+//   descricao: z.string({ error: "Descrição é obrigatória." }).min(3, {
+//     message: "Descrição precisa ter 3 caracteres ou mais.",
+//   }),
+//   data: z.date({ error: "Data é obrigatória." }),
+//   valor: z.number({ error: "Valor é obrigatório" }),
+//   categoria: z.string({ error: "Categoria é obrigatória." }),
+//   tipo: z.enum(["plus", "minus"], { error: "Tipo é obrigatório." }),
+// });
 
 const formSchema = z.object({
-  descricao: z.string({ error: "Descrição é obrigatória." }).min(3, {
-    message: "Descrição precisa ter 3 caracteres ou mais.",
-  }),
-  data: z.date({ error: "Data é obrigatória." }),
-  valor: z.number({ error: "Valor é obrigatório" }),
-  categoria: z.string({ error: "Categoria é obrigatória." }),
-  tipo: z.enum(["plus", "minus"], { error: "Tipo é obrigatório." }),
+  descricao: z.string(),
+  data: z.date(),
+  valor: z.number(),
+  categoria: z.string(),
+  tipo: z.enum(["plus", "minus"]),
 });
+
+type AddTransactionFormProps = {
+  transaction?: Transaction;
+};
 
 const options = [
   "alimentação",
@@ -30,17 +44,21 @@ const options = [
   "outros",
 ];
 
-export function AddTransactionForm() {
+export function AddTransactionForm({ transaction }: AddTransactionFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      descricao: "",
-      data: undefined,
-      categoria: "",
-      valor: undefined,
-      tipo: "minus",
+      descricao: transaction?.descricao || "",
+      data: transaction?.data,
+      categoria: transaction?.categoria,
+      valor: transaction?.valor || undefined,
+      tipo: transaction?.tipo || "minus",
     },
   });
+
+  useEffect(() => {
+    console.log(transaction);
+  }, [transaction]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
